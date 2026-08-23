@@ -1,6 +1,7 @@
 ---
 import site from '../data/site';
 import { getDict, type Lang } from '../i18n/ui';
+import { asset } from '../utils/paths';
 
 interface Props {
   lang: Lang;
@@ -9,7 +10,7 @@ interface Props {
 const { lang } = Astro.props;
 const t = getDict(lang);
 const otherLang: Lang = lang === 'es' ? 'en' : 'es';
-const homeHref = lang === 'es' ? '/' : '/en/';
+const homeHref = lang === 'es' ? asset('/') : asset('/en/');
 ---
 
 <header class="site-nav">
@@ -21,7 +22,7 @@ const homeHref = lang === 'es' ? '/' : '/en/';
       <a href="#skills">{t['nav.skills']}</a>
       <a href="#contact">{t['nav.contact']}</a>
     </nav>
-    <a class="lang" data-lang-switch href={lang === 'es' ? '/en/' : '/'} title={otherLang === 'es' ? 'Español' : 'English'}>
+    <a class="lang" data-lang-switch href={lang === 'es' ? asset('/en/') : asset('/')} title={otherLang === 'es' ? 'Español' : 'English'}>
       {otherLang.toUpperCase()}
     </a>
   </div>

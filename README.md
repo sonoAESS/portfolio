@@ -2,7 +2,7 @@
 
 Portfolio personal construido con **Astro**, inspirado en la estética minimalista de [aleksgornik.com](https://aleksgornik.com/) y alimentado por mi perfil de GitHub ([@sonoAESS](https://github.com/sonoAESS)).
 
-Bilingüe (🇪🇸 `/` · 🇬🇧 `/en`), estático y ligero. Listo para desplegar en **Vercel**.
+Bilingüe (🇪🇸 `/` · 🇬🇧 `/en`), estático y ligero. Desplegado en **GitHub Pages**.
 
 ## Stack
 
@@ -34,7 +34,7 @@ Requiere Node ≥ 22 (usa [nvm](https://github.com/nvm-sh/nvm)):
 ```bash
 nvm use
 npm install
-npm run dev        # http://localhost:4321
+npm run dev        # http://localhost:4321/portfolio
 ```
 
 Otros comandos:
@@ -45,14 +45,18 @@ npm run preview    # sirve el build localmente
 npx astro check    # chequeo de tipos
 ```
 
-## Despliegue en Vercel
+## Despliegue en GitHub Pages
 
-1. Sube este repo a GitHub.
-2. En [vercel.com/new](https://vercel.com/new), importa el repositorio.
-3. Vercel detecta **Astro** automáticamente (build: `astro build`, output: `dist`). No requiere configuración extra.
-4. Deploy. Cada push a `main` generará un nuevo despliegue.
+El sitio se despliega automáticamente con **GitHub Actions** (`.github/workflows/deploy.yml`) en cada push a `main`.
 
-Opcional: cuando tengas dominio propio, añade `site: 'https://tudominio.com'` en `astro.config.mjs`.
+URL pública: **https://sonoaess.github.io/portfolio/**
+
+### Configuración inicial (una sola vez)
+
+1. Ve al repo en GitHub → **Settings → Pages**.
+2. En **Build and deployment → Source**, selecciona **GitHub Actions**.
+
+A partir de ahí, cada `git push` construye y publica el sitio solo. También puedes relanzar el deploy manualmente desde la pestaña **Actions → Deploy to GitHub Pages → Run workflow**.
 
 ## Personalización
 

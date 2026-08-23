@@ -1,6 +1,7 @@
 ---
 import site from '../data/site';
 import { getDict, type Lang } from '../i18n/ui';
+import { asset } from '../utils/paths';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -28,7 +29,7 @@ const roles = site.roles[lang].join('  ·  ');
     </div>
     <div class="portrait" data-reveal style="--reveal-delay: .2s">
       <img
-        src="/images/avatar.png"
+        src={asset('/images/avatar.png')}
         alt={site.name}
         width="460"
         height="460"
