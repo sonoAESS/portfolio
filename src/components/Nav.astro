@@ -90,20 +90,36 @@ const homeHref = lang === 'es' ? asset('/') : asset('/en/');
     border-color: var(--ink);
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 760px) {
     .inner {
+      flex-wrap: wrap;
       justify-content: center;
-      row-gap: 0.4rem;
+      row-gap: 0.55rem;
+      padding-block: 0.65rem;
     }
 
     .brand {
-      position: absolute;
-      left: 1.25rem;
+      order: 1;
     }
 
     .lang {
-      position: absolute;
-      right: 1.25rem;
+      order: 2;
+      margin-left: auto;
+    }
+
+    nav {
+      order: 3;
+      flex-basis: 100%;
+      justify-content: center;
+      gap: 1.15rem;
+    }
+  }
+
+  @media (max-width: 380px) {
+    nav {
+      flex-wrap: wrap;
+      gap: 0.55rem 0.85rem;
+      font-size: 0.84rem;
     }
   }
 </style>
