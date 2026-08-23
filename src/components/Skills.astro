@@ -1,0 +1,92 @@
+---
+import { getDict, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDict(lang);
+
+const groups = [
+  {
+    label: t['skills.languages'],
+    items: ['Python', 'R', 'Java', 'HTML5', 'CSS3'],
+  },
+  {
+    label: t['skills.frameworks'],
+    items: ['Django', 'Django REST Framework', 'Biopython', 'Streamlit', 'KivyMD', 'Jupyter'],
+  },
+  {
+    label: t['skills.tools'],
+    items: ['Git', 'GitHub'],
+  },
+];
+---
+
+<section id="skills" class="section">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">03 — {t['nav.skills']}</p>
+      <h2 class="section-title">{t['skills.title']}</h2>
+      <p class="subtitle">{t['skills.subtitle']}</p>
+    </div>
+    <div class="groups">
+      {
+        groups.map((group, i) => (
+          <div class="group" data-reveal style={`--reveal-delay: ${i * 0.08}s`}>
+            <h3>{group.label}</h3>
+            <ul>
+              {group.items.map((item) => (
+                <li class="chip">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .subtitle {
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .group {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.6rem;
+  }
+
+  h3 {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .groups {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

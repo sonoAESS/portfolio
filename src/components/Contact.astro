@@ -1,0 +1,82 @@
+---
+import site from '../data/site';
+import { getDict, type Lang } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDict(lang);
+---
+
+<section id="contact" class="section">
+  <div class="container narrow">
+    <div class="box" data-reveal>
+      <p class="eyebrow">04 — {t['nav.contact']}</p>
+      <h2 class="title">{t['contact.title']}</h2>
+      <p class="text">{t['contact.text']}</p>
+      <div class="actions">
+        <a
+          class="btn btn-primary"
+          href={site.socials.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="linkedin" size={17} />
+          {t['contact.linkedin']}
+        </a>
+        <a
+          class="btn btn-ghost"
+          href={site.socials.github}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Icon name="github" size={17} />
+          {t['contact.github']}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .narrow {
+    max-width: 760px;
+  }
+
+  .box {
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .eyebrow {
+    justify-content: center;
+  }
+
+  .eyebrow::before {
+    display: none;
+  }
+
+  .title {
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    margin-bottom: 1.1rem;
+  }
+
+  .text {
+    color: var(--muted);
+    max-width: 46ch;
+    margin: 0 auto 2.25rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+  }
+</style>

@@ -1,0 +1,282 @@
+---
+import { getDict, type Lang } from '../i18n/ui';
+import { featured, others, languageColors, type Project } from '../data/projects';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDict(lang);
+
+const meta = (p: Project) => {
+  const parts = [p.language];
+  if (p.stars) parts.push(`★ ${p.stars}`);
+  return parts.filter(Boolean).join('   ·   ');
+};
+---
+
+<section id="projects" class="section">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <p class="eyebrow">02 — {t['nav.projects']}</p>
+      <h2 class="section-title">{t['projects.title']}</h2>
+      <p class="subtitle">{t['projects.subtitle']}</p>
+    </div>
+
+    <div class="cards">
+      {
+        featured.map((project, i) => (
+          <article class="card" data-reveal style={`--reveal-delay: ${(i % 3) * 0.08}s`}>
+            <div class="top">
+              <span class="meta">
+                {project.language && (
+                  <span
+                    class="dot"
+                    style={`--dot: ${languageColors[project.language] ?? '#8a8f98'}`}
+                  />
+                )}
+                {meta(project)}
+              </span>
+              <span class="year">{project.year}</span>
+            </div>
+            <h3>
+              <a href={project.url} target="_blank" rel="noopener noreferrer">
+                {project.name}
+                <Icon name="external" size={15} />
+              </a>
+            </h3>
+            <p>{project.desc[lang]}</p>
+            {project.tags && (
+              <ul>
+                {project.tags.map((tag) => (
+                  <li class="chip">{tag}</li>
+                ))}
+              </ul>
+            )}
+          </article>
+        ))
+      }
+    </div>
+
+    <h3 class="more-title" data-reveal>{t['projects.more']}</h3>
+    <ul class="others" data-reveal>
+      {
+        others.map((project) => (
+          <li>
+            <a href={project.url} target="_blank" rel="noopener noreferrer">
+              <span class="name">{project.name}</span>
+              <span class="desc">{project.desc[lang]}</span>
+              <span class="year">{project.year}</span>
+              <span class="go">
+                <Icon name="arrow-right" size={16} />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .subtitle {
+    color: var(--muted);
+    margin-top: 1rem;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.6rem;
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--ink) 22%, var(--line));
+    box-shadow: var(--shadow-card);
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+  }
+
+  .meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--dot, #8a8f98);
+    flex-shrink: 0;
+  }
+
+  .card h3 {
+    font-size: 1.12rem;
+  }
+
+  .card h3 a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: color 0.15s ease;
+  }
+
+  .card h3 a:hover {
+    color: var(--accent);
+  }
+
+  .card h3 svg {
+    opacity: 0.45;
+    transition: opacity 0.15s ease;
+  }
+
+  .card h3 a:hover svg {
+    opacity: 1;
+  }
+
+  .card > p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    line-height: 1.55;
+    flex-grow: 1;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  ul .chip {
+    font-size: 0.78rem;
+    padding: 0.32rem 0.7rem;
+  }
+
+  .more-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    margin: clamp(2.75rem, 5vw, 4rem) 0 0.75rem;
+  }
+
+  .others {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .others li {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .others a {
+    display: grid;
+    grid-template-columns: minmax(150px, 240px) 1fr auto auto;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.05rem 0.35rem;
+    transition:
+      background-color 0.15s ease,
+      padding-inline 0.15s ease;
+  }
+
+  .others a:hover {
+    background: var(--surface);
+    padding-inline: 0.9rem;
+  }
+
+  .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+  }
+
+  .desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  .year {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .go {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .others a:hover .go {
+    color: #fff;
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 1000px) {
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .others a {
+      grid-template-columns: 1fr auto;
+      row-gap: 0.2rem;
+    }
+
+    .desc {
+      grid-column: 1 / -1;
+    }
+
+    .go {
+      display: none;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

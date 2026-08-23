@@ -1,0 +1,151 @@
+---
+import site from '../data/site';
+import { getDict, type Lang } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDict(lang);
+
+interface Fact {
+  icon: 'pin' | 'cap' | 'badge' | 'dot';
+  label: string;
+  value: string;
+  href?: string;
+}
+
+const facts: Fact[] = [
+  { icon: 'pin', label: t['about.facts.location'], value: site.location[lang] },
+  { icon: 'cap', label: t['about.facts.university'], value: site.university },
+  { icon: 'badge', label: 'ORCID', value: site.orcidId, href: site.socials.orcid },
+  { icon: 'dot', label: t['about.facts.status'], value: t['about.facts.statusValue'] },
+];
+---
+
+<section id="about" class="section">
+  <div class="container grid">
+    <div class="head" data-reveal>
+      <p class="eyebrow">01 — {t['nav.about']}</p>
+      <h2 class="section-title">{t['about.title']}</h2>
+    </div>
+    <div class="body">
+      <p class="big" data-reveal>{t['about.p1']}</p>
+      <p data-reveal style="--reveal-delay: .08s">{t['about.p2']}</p>
+      <ul class="facts" data-reveal style="--reveal-delay: .16s">
+        {
+          facts.map((fact) => (
+            <li>
+              <span class="icon">
+                <Icon name={fact.icon} size={19} />
+              </span>
+              <div>
+                <span class="label">{fact.label}</span>
+                <strong>
+                  {fact.href ? (
+                    <a href={fact.href} target="_blank" rel="noopener noreferrer">
+                      {fact.value}
+                    </a>
+                  ) : (
+                    fact.value
+                  )}
+                </strong>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .head {
+    position: sticky;
+    top: 96px;
+  }
+
+  .big {
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.2rem;
+  }
+
+  .body > p:not(.big) {
+    color: var(--muted);
+    max-width: 56ch;
+    margin-bottom: 2.5rem;
+  }
+
+  .facts {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1rem 1.15rem;
+  }
+
+  .icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.1rem;
+  }
+
+  strong {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  strong a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .head {
+      position: static;
+    }
+
+    .facts {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

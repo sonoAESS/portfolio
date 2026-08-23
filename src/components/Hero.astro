@@ -1,0 +1,123 @@
+---
+import site from '../data/site';
+import { getDict, type Lang } from '../i18n/ui';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = getDict(lang);
+const roles = site.roles[lang].join('  ·  ');
+---
+
+<section class="hero">
+  <div class="container grid">
+    <div class="copy">
+      <p class="roles" data-reveal>{roles}</p>
+      <h1 data-reveal style="--reveal-delay: .08s">{t['hero.title']}</h1>
+      <p class="lead" data-reveal style="--reveal-delay: .16s">{t['hero.subtitle']}</p>
+      <div class="actions" data-reveal style="--reveal-delay: .24s">
+        <a class="btn btn-primary" href="#projects">
+          {t['hero.ctaProjects']}
+          <Icon name="arrow-right" size={17} />
+        </a>
+        <a class="btn btn-ghost" href="#contact">{t['hero.ctaContact']}</a>
+      </div>
+    </div>
+    <div class="portrait" data-reveal style="--reveal-delay: .2s">
+      <img
+        src="/images/avatar.png"
+        alt={site.name}
+        width="460"
+        height="460"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(4rem, 10vw, 8rem) clamp(3.5rem, 8vw, 6.5rem);
+    overflow: hidden;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .roles {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
+    font-weight: 800;
+    margin-bottom: 1.4rem;
+  }
+
+  .lead {
+    color: var(--muted);
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    max-width: 34rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  .portrait {
+    position: relative;
+    justify-self: end;
+    width: min(100%, 420px);
+  }
+
+  .portrait::before {
+    content: '';
+    position: absolute;
+    inset: -12%;
+    background:
+      radial-gradient(closest-side, var(--accent-soft), transparent 72%)
+        no-repeat 78% 22% / 62% 62%,
+      radial-gradient(closest-side, rgba(47, 111, 79, 0.06), transparent 70%)
+        no-repeat 18% 82% / 55% 55%;
+    z-index: -1;
+    filter: blur(2px);
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .portrait {
+      justify-self: center;
+      width: min(100%, 320px);
+      order: -1;
+    }
+  }
+</style>
